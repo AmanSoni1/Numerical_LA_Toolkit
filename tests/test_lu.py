@@ -161,7 +161,3 @@ def test_list_input():
 
     A = np.array(A, dtype=float)
     assert np.allclose(P @ A, L @ U)
-=======
-def lu_test():
-    raise NotImplementedError
-

@@ -1,4 +1,3 @@
-
 import numpy as np
 
 
@@ -54,8 +53,6 @@ def back_substitution_upper(U, y):
 
     return x
 
-
-# for testing
 def lu_solve(P, L, U, b):
     y = forward_substitution(L, P @ b)
     x = back_substitution_upper(U, y)

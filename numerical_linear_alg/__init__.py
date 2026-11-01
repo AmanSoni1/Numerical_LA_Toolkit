@@ -1,8 +1,12 @@
-"""Numerical Linear Algebra Toolkit: solving Ax = b and checking accuracy."""
+"""Numerical Linear Algebra Toolkit."""
 
-""" it lets anyone write from numerical_linalg import gaussian_solve instead of from numerical_linalg.gaussian import gaussian_solve. __all__ just lists the public names."""
-from .gaussian import gaussian_solve
+# Gaussian elimination
+from .gaussian import gaussian_solve, back_substitution
+
+# LU decomposition
 from .lu import lu_factor, lu_solve
+
+# Numerical diagnostics
 from .diagnostics import (
     residual,
     relative_residual,
@@ -12,6 +16,7 @@ from .diagnostics import (
 
 __all__ = [
     "gaussian_solve",
+    "back_substitution",
     "lu_factor",
     "lu_solve",
     "residual",

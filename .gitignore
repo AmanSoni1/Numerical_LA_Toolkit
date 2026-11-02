@@ -21,3 +21,8 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+# Local virtual environment
+linenv/
+
+# Local virtual environment
+linenv/

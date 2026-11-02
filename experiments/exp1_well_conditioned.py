@@ -1,3 +1,0 @@
-def experiment():
-    raise NotImplementedError
-    

@@ -1,0 +1,17 @@
+HILBERT MATRIX: NUMERICAL RESULTS
+===================================================================================================================
+
+n    Solver                                       Condition Number    Relative Error Relative Residual    Backward Error
+------------------------------------------------------------------------------------------------------------------------
+3    Gaussian elimination (partial pivoting)          5.240568e+02      8.029505e-15      1.094112e-16      5.272706e-17
+3    LU factorization (partial pivoting)              5.240568e+02      6.312995e-16      0.000000e+00      0.000000e+00
+3    NumPy                                            5.240568e+02      8.022594e-15      0.000000e+00      0.000000e+00
+5    Gaussian elimination (partial pivoting)          4.766073e+05      3.493365e-13      1.659319e-16      7.839752e-17
+5    LU factorization (partial pivoting)              4.766073e+05      3.707287e-13      1.621169e-16      7.659503e-17
+5    NumPy                                            4.766073e+05      1.682843e-12      8.665511e-17      4.094177e-17
+8    Gaussian elimination (partial pivoting)          1.525758e+10      3.585112e-08      2.677392e-17      1.241374e-17
+8    LU factorization (partial pivoting)              1.525758e+10      1.199954e-07      2.677392e-17      1.241374e-17
+8    NumPy                                            1.525758e+10      6.124090e-08      6.558244e-17      3.040734e-17
+10   Gaussian elimination (partial pivoting)          1.602461e+13      8.242289e-05      3.333644e-17      1.531813e-17
+10   LU factorization (partial pivoting)              1.602461e+13      2.678935e-04      1.105644e-16      5.080449e-17
+10   NumPy                                            1.602461e+13      8.670390e-05      1.201962e-16      5.523031e-17

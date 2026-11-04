@@ -1,4 +1,3 @@
-
 """
 Gaussian elimination without partial pivoting.
 
@@ -7,41 +6,59 @@ This implementation is intended only for numerical experiments.
 
 import numpy as np
 
+from numerical_linear_alg.base import LinearSolver
 
-def gaussian_solve_without_pivoting(A, b):
+
+class GaussianEliminationNoPivoting(LinearSolver):
     """Solve Ax = b using Gaussian elimination without pivoting."""
 
-    A = np.asarray(A, dtype=float).copy()
-    b = np.asarray(b, dtype=float).copy()
+    name = "Gaussian elimination (no pivoting)"
 
-    n = len(b)
+    def solve(self, A, b):
+        A = np.asarray(A, dtype=float).copy()
+        b = np.asarray(b, dtype=float).copy()
 
-    if A.shape != (n, n):
-        raise ValueError("A must be a square matrix compatible with b.")
+        n = len(b)
 
-    # Forward elimination
-    for k in range(n - 1):
+        if A.shape != (n, n):
+            raise ValueError("A must be a square matrix compatible with b.")
 
-        if A[k, k] == 0:
-            raise np.linalg.LinAlgError("Zero pivot encountered.")
+        self._forward_elimination(A, b)
+        return self._back_substitution(A, b)
 
-        for i in range(k + 1, n):
+    @staticmethod
+    def _forward_elimination(A, b):
+        n = len(b)
 
-            multiplier = A[i, k] / A[k, k]
+        for k in range(n - 1):
 
-            A[i, k:] -= multiplier * A[k, k:]
-            b[i] -= multiplier * b[k]
+            if A[k, k] == 0:
+                raise np.linalg.LinAlgError("Zero pivot encountered.")
 
-    # Back substitution
-    x = np.zeros(n)
+            for i in range(k + 1, n):
 
-    for i in range(n - 1, -1, -1):
+                multiplier = A[i, k] / A[k, k]
 
-        if A[i, i] == 0:
-            raise np.linalg.LinAlgError("Zero diagonal entry encountered.")
+                A[i, k:] -= multiplier * A[k, k:]
+                b[i] -= multiplier * b[k]
 
-        x[i] = (
-            b[i] - np.dot(A[i, i + 1:], x[i + 1:])
-        ) / A[i, i]
+    @staticmethod
+    def _back_substitution(A, b):
+        n = len(b)
+        x = np.zeros(n)
 
-    return x
+        for i in range(n - 1, -1, -1):
+
+            if A[i, i] == 0:
+                raise np.linalg.LinAlgError("Zero diagonal entry encountered.")
+
+            x[i] = (
+                b[i] - np.dot(A[i, i + 1:], x[i + 1:])
+            ) / A[i, i]
+
+        return x
+
+
+# Backward-compatible functional API
+def gaussian_solve_without_pivoting(A, b):
+    return GaussianEliminationNoPivoting().solve(A, b)

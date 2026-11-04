@@ -19,7 +19,7 @@ A = np.array([[2.0, 1.0], [1.0, 3.0]])
 X_EXACT = np.array([1.0, 2.0])
 B = A @ X_EXACT
 
-
+#Test cases
 def test_residual_zero_for_exact_solution():
     assert np.allclose(residual(A, X_EXACT, B), 0.0)
 
@@ -87,7 +87,7 @@ def test_shape_errors():
     with pytest.raises(ValueError):
         residual(A, np.ones(3), B)
     with pytest.raises(ValueError):
-        condition_number(np.ones((2, 3)))
+        condition_number(np.ones((2, 3)))git
 
 
 def test_accepts_lists():

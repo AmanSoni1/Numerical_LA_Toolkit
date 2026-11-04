@@ -14,7 +14,7 @@ def residual(A, x, b):
     It measures how closely the computed solution satisfies
     the given linear system Ax = b.
     """
-    # Convert inputs into NumPy arrays
+    
     A = np.asarray(A, dtype=float)
     x = np.asarray(x, dtype=float)
     b = np.asarray(b, dtype=float)
@@ -23,7 +23,7 @@ def residual(A, x, b):
     if A.ndim != 2 or A.shape[0] != A.shape[1]:
         raise ValueError("A must be square")
     
-    # Check whether x and b are one-dimensional vectors
+    # Check whether x and b are one-dimensional vectors or not
     if x.ndim != 1 or b.ndim != 1:
         raise ValueError("Invalid vector dimensions")
     

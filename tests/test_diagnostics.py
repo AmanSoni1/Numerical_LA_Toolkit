@@ -87,7 +87,7 @@ def test_shape_errors():
     with pytest.raises(ValueError):
         residual(A, np.ones(3), B)
     with pytest.raises(ValueError):
-        condition_number(np.ones((2, 3)))git
+        condition_number(np.ones((2, 3)))
 
 
 def test_accepts_lists():

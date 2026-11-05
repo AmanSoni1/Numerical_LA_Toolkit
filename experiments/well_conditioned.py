@@ -3,6 +3,11 @@
 
 import numpy as np
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from experiments.common import Experiment, SolverComparison
 
 
@@ -11,8 +16,7 @@ class WellConditionedExperiment(Experiment):
 
     title = "EXPERIMENT 1: WELL-CONDITIONED SYSTEM"
 
-    @staticmethod
-    def create_system():
+    def create_system(self):
         """Create a well-conditioned system with a known exact solution."""
 
         A = np.array([
@@ -35,11 +39,11 @@ class WellConditionedExperiment(Experiment):
 
 # Backward-compatible module-level API
 def create_system():
-    return WellConditionedExperiment.create_system()
+    return WellConditionedExperiment().create_system()
 
 
 def main():
-    WellConditionedExperiment.main()
+    WellConditionedExperiment().main()
 
 
 if __name__ == "__main__":

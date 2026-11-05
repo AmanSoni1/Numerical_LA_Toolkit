@@ -1,9 +1,12 @@
 
 """Common utilities for numerical linear algebra experiments."""
 
-from abc import ABC, abstractmethod
-
 import numpy as np
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from numerical_linear_alg import (
     GaussianEliminationSolver,
@@ -15,7 +18,7 @@ from numerical_linear_alg import (
 
 
 class NumpySolver(LinearSolver):
-    """Reference solver: NumPy's LAPACK-based ``np.linalg.solve``."""
+    """Reference solver: NumPy's LAPACK-based np.linalg.solve."""
 
     name = "NumPy"
 
@@ -23,20 +26,18 @@ class NumpySolver(LinearSolver):
         return np.linalg.solve(A, b)
 
 
-class Experiment(ABC):
+class Experiment:
     """Base class for every numerical experiment."""
 
-    #: Title printed at the top of the experiment output.
     title = "EXPERIMENT"
 
-    @abstractmethod
     def run(self):
         """Execute the experiment."""
+        raise NotImplementedError("Subclasses must implement run().")
 
-    @classmethod
-    def main(cls):
-        """Entry point used by ``python -m experiments.<name>``."""
-        return cls().run()
+    def main(self):
+        """Entry point used by python -m experiments.<name>."""
+        return self.run()
 
 
 class SolverComparison:
@@ -55,7 +56,6 @@ class SolverComparison:
         self.x_exact = x_exact
         self.title = title
 
-        # Maps solver name -> callable solver(A, b) -> x.
         self.solvers = {
             self.GAUSSIAN: GaussianEliminationSolver(),
             self.LU: LUSolver(),
@@ -68,8 +68,7 @@ class SolverComparison:
     # ------------------------------------------------------------------
     # Metric helpers
     # ------------------------------------------------------------------
-    @staticmethod
-    def calculate_reference_metrics(A, x, b, x_exact):
+    def calculate_reference_metrics(self, A, x, b, x_exact):
         """Calculate numerical accuracy metrics independently."""
 
         r = b - A @ x
@@ -85,8 +84,7 @@ class SolverComparison:
             ),
         }
 
-    @staticmethod
-    def validate_diagnostics(A, x, b, reference_metrics):
+    def validate_diagnostics(self, A, x, b, reference_metrics):
         """Validate package diagnostics against independent calculations."""
 
         diagnostics = SolutionDiagnostics(A, x, b)
@@ -143,9 +141,11 @@ class SolverComparison:
 
         for name, solver in self.solvers.items():
 
-            x = solver(A, b)
+            x = solver.solve(A, b)
 
-            metrics = self.calculate_reference_metrics(A, x, b, x_exact)
+            metrics = self.calculate_reference_metrics(
+                A, x, b, x_exact
+            )
 
             self.validate_diagnostics(A, x, b, metrics)
 
@@ -167,7 +167,7 @@ class SolverComparison:
 
 
 # ----------------------------------------------------------------------
-# Backward-compatible functional API (thin wrappers around the classes)
+# Backward-compatible functional API
 # ----------------------------------------------------------------------
 def solve_with_lu(A, b):
     """Solve Ax = b using LU factorization."""
@@ -175,13 +175,19 @@ def solve_with_lu(A, b):
 
 
 def calculate_reference_metrics(A, x, b, x_exact):
-    return SolverComparison.calculate_reference_metrics(A, x, b, x_exact)
+    return SolverComparison(
+        None, None, None, None
+    ).calculate_reference_metrics(A, x, b, x_exact)
 
 
 def validate_diagnostics(A, x, b, reference_metrics):
-    SolverComparison.validate_diagnostics(A, x, b, reference_metrics)
+    SolverComparison(
+        None, None, None, None
+    ).validate_diagnostics(A, x, b, reference_metrics)
 
 
 def run_solver_comparison(A, b, x_exact, title, additional_solvers=None):
     """Compare package solvers and optional experiment-specific solvers."""
-    return SolverComparison(A, b, x_exact, title, additional_solvers).run()
+    return SolverComparison(
+        A, b, x_exact, title, additional_solvers
+    ).run()

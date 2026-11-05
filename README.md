@@ -83,7 +83,7 @@ x = GaussianEliminationSolver().solve(A, b)
 lu = LUSolver().factorize(A)       # LUDecomposition object
 x1 = lu.solve(b)
 x2 = lu.solve(2 * b)
-P, L, U = lu.factors               # P A = L U
+P, L, U = lu.factors()               # P A = L U
 
 # Diagnostics
 d = SolutionDiagnostics(A, x, b)
@@ -131,9 +131,9 @@ The tests cover correctness against NumPy, `PA = LU` reconstruction, factorizati
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m pytest
-MPLBACKEND=Agg python -m experiments.well_conditioned
-MPLBACKEND=Agg python -m experiments.pivoting
-MPLBACKEND=Agg python -m experiments.hilbert
+python -m experiments.well_conditioned
+python -m experiments.pivoting
+python -m experiments.hilbert
 ```
 
 Last digits of the results can differ slightly between machines because of the underlying BLAS/LAPACK library.

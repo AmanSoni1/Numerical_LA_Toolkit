@@ -1,3 +1,4 @@
+
 """
 Gaussian elimination without partial pivoting.
 
@@ -5,6 +6,11 @@ This implementation is intended only for numerical experiments.
 """
 
 import numpy as np
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from numerical_linear_alg.base import LinearSolver
 
@@ -24,10 +30,10 @@ class GaussianEliminationNoPivoting(LinearSolver):
             raise ValueError("A must be a square matrix compatible with b.")
 
         self._forward_elimination(A, b)
+
         return self._back_substitution(A, b)
 
-    @staticmethod
-    def _forward_elimination(A, b):
+    def _forward_elimination(self, A, b):
         n = len(b)
 
         for k in range(n - 1):
@@ -42,8 +48,7 @@ class GaussianEliminationNoPivoting(LinearSolver):
                 A[i, k:] -= multiplier * A[k, k:]
                 b[i] -= multiplier * b[k]
 
-    @staticmethod
-    def _back_substitution(A, b):
+    def _back_substitution(self, A, b):
         n = len(b)
         x = np.zeros(n)
 

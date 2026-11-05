@@ -1,13 +1,18 @@
-"""Numerical Linear Algebra Toolkit."""
+"""Numerical Linear Algebra Toolkit (object-oriented)."""
+
+# Common interface
+from .base import LinearSolver
 
 # Gaussian elimination
-from .gaussian import gaussian_solve, back_substitution
+from .gaussian import GaussianEliminationSolver, gaussian_solve, back_substitution
 
 # LU decomposition
-from .lu import lu_factor, lu_solve
+from .lu import LUDecomposition, LUSolver, lu_factor, lu_solve
 
 # Numerical diagnostics
 from .diagnostics import (
+    MatrixDiagnostics,
+    SolutionDiagnostics,
     residual,
     relative_residual,
     backward_error,
@@ -15,6 +20,14 @@ from .diagnostics import (
 )
 
 __all__ = [
+    # classes
+    "LinearSolver",
+    "GaussianEliminationSolver",
+    "LUDecomposition",
+    "LUSolver",
+    "MatrixDiagnostics",
+    "SolutionDiagnostics",
+    # functional API kept for backward compatibility
     "gaussian_solve",
     "back_substitution",
     "lu_factor",

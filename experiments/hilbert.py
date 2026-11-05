@@ -1,9 +1,13 @@
 
 """Experiment 3: Investigate the numerical behaviour of Hilbert matrices."""
 
+import numpy as np
+
+import sys
 from pathlib import Path
 
-import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 import matplotlib.pyplot as plt
 
 from experiments.common import Experiment, SolverComparison
@@ -22,18 +26,17 @@ class HilbertExperiment(Experiment):
 
     def __init__(self, sizes=(3, 5, 8, 10), output_dir=None):
         self.sizes = list(sizes)
-        self.output_dir = (
-            Path(output_dir) if output_dir is not None
-            else Path(__file__).resolve().parent
-        )
 
-        # Filled in by run().
+        if output_dir is not None:
+            self.output_dir = Path(output_dir)
+        else:
+            self.output_dir = Path(__file__).resolve().parent
+
         self.condition_numbers = []
         self.errors = {name: [] for name in self.SOLVER_NAMES}
         self.table_rows = []
 
-    @staticmethod
-    def create_hilbert_system(n):
+    def create_hilbert_system(self, n):
         """Create a Hilbert matrix system with a known exact solution."""
 
         H = np.fromfunction(
@@ -156,11 +159,11 @@ class HilbertExperiment(Experiment):
 
 # Backward-compatible module-level API
 def create_hilbert_system(n):
-    return HilbertExperiment.create_hilbert_system(n)
+    return HilbertExperiment().create_hilbert_system(n)
 
 
 def main():
-    HilbertExperiment.main()
+    HilbertExperiment().main()
 
 
 if __name__ == "__main__":

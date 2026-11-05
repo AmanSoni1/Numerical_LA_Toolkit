@@ -7,6 +7,11 @@ using a linear system with a very small initial pivot.
 
 import numpy as np
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from experiments.common import Experiment, SolverComparison
 from experiments.gaussian_no_pivoting import GaussianEliminationNoPivoting
 
@@ -16,8 +21,7 @@ class PivotingExperiment(Experiment):
 
     title = "EXPERIMENT 2: IMPORTANCE OF PARTIAL PIVOTING"
 
-    @staticmethod
-    def create_system():
+    def create_system(self):
         """Create the linear system specified for the pivoting experiment."""
 
         A = np.array([
@@ -68,11 +72,11 @@ class PivotingExperiment(Experiment):
 
 # Backward-compatible module-level API
 def create_system():
-    return PivotingExperiment.create_system()
+    return PivotingExperiment().create_system()
 
 
 def main():
-    PivotingExperiment.main()
+    PivotingExperiment().main()
 
 
 if __name__ == "__main__":
